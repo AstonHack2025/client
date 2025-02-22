@@ -14,7 +14,7 @@ export const newVerification = async (token: string) => {
   await connectDB()
 
   const existingUser =await User.findOne({
-    $or: [{email: res.email}, {emailPendingVerification: res.email}]
+    $or: [{email: res.email.toLowerCase()}, {emailPendingVerification: res.email}]
   })
 
   if (!existingUser) {
@@ -25,7 +25,7 @@ export const newVerification = async (token: string) => {
   if (existingUser.emailPendingVerification === res.email) {
     // This is for updating an existing user's email
     await User.findByIdAndUpdate(existingUser._id, {
-      email: res.email, // Update the main email to the new one
+      email: res.email.toLowerCase(), // Update the main email to the new one
       emailVerified: new Date(), // Mark the new email as verified
       emailPendingVerification: null // Clear the pending email field
     })
@@ -37,7 +37,7 @@ export const newVerification = async (token: string) => {
     // This is for new user email verification
     await User.findByIdAndUpdate(existingUser._id, {
       emailVerified: new Date(), // Mark email as verified
-      email: res.email
+      email: res.email.toLowerCase(),
     })
 
     return { success: "Email verified for new registration!" }

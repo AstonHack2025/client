@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { newVerification } from "@/lib/actions/auth/new-verification";
 
 import { FormError } from "@/components/shared/form-error";
@@ -10,6 +10,7 @@ import { FormWrapper } from "@/components/shared/form-wrapper";
 import { Loader } from "@/components/shared/loader";
 
 export const NewVerificationForm = () => {
+    const router = useRouter();
     const searchParams = useSearchParams();
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
@@ -30,6 +31,7 @@ export const NewVerificationForm = () => {
                     setError(data.error);
                 } else if (data?.success) {
                     setSuccess(data.success);
+                    router.push("/onboard")
                 }
             })
             .catch(() => setError("Something went wrong"));

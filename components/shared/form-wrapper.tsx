@@ -15,16 +15,11 @@ interface FormWrapperProps {
 
 export const FormWrapper = ({ children, headerLabel, backButtonLabel, backButtonHref, showSocial }: FormWrapperProps) => {
     return (
-        <Card className="w-[360px] shadow-md">
+        <Card className="w-[360px] shadow-md py-4">
             <CardHeader>
                 <Header label={headerLabel} />
             </CardHeader>
             <CardContent>{children}</CardContent>
-            {showSocial && (
-                <CardFooter>
-                    <SocialButton />
-                </CardFooter>
-            )}
             <CardFooter>
                 <BackButton label={backButtonLabel} href={backButtonHref} />
             </CardFooter>

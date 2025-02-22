@@ -18,8 +18,9 @@ export const resetPassword = async (values: ResetPasswordInput) => {
         return { error: "Invalid email!" };
     }
 
-    const { email } = validatedFields.data;
-
+    let { email } = validatedFields.data;
+    email = email.toLowerCase();
+    
     await connectDB();
 
     const existingUser = await User.findOne({ email });
