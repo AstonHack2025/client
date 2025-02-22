@@ -1,11 +1,10 @@
-import { ICourse, UserProvider } from "@/lib/models/types";
+import { UserProvider } from "@/lib/models/types";
 import NextAuth, { type DefaultSession, type User as NextAuthUser } from "next-auth";
 
 export interface ExtendedUser extends NextAuthUser {
     _id: string;
     provider: UserProvider;
     isTwoFactorEnabled: boolean;
-    coursesStatus: ICourse[];
 }
 
 declare module "next-auth" {

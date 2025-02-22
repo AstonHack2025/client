@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { UserProvider, CourseCompletionStatus } from "@/lib/models/types";
+import { UserProvider } from "@/lib/models/types";
 
 export const userSchema = new mongoose.Schema(
     {
@@ -7,17 +7,10 @@ export const userSchema = new mongoose.Schema(
         email: { type: String, unique: true, required: true },
         password: { type: String },
         image: { type: String },
-        provider: { type: String, enum: [UserProvider.CREDENTIALS, UserProvider.GOOGLE], default: UserProvider.CREDENTIALS },
+        provider: { type: String, enum: [UserProvider.CREDENTIALS], default: UserProvider.CREDENTIALS },
         emailVerified: { type: Date, default: null },
         isTwoFactorEnabled: { type: Boolean, default: false },
         emailPendingVerification: { type: String },
-        coursesStatus: [
-            {
-                id: { type: String, required: true },
-                completedAt: { type: Number, default: null }, // Unix timestamp
-                status: { type: String, enum: Object.values(CourseCompletionStatus), default: CourseCompletionStatus.NOT_STARTED },
-            },
-        ],
     },
     { timestamps: true, versionKey: false }
 );

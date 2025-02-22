@@ -1,8 +1,6 @@
 import { Document } from "mongoose";
 
-
 export enum UserProvider {
-    GOOGLE = "google",
     CREDENTIALS = "credentials",
 }
 
@@ -21,13 +19,6 @@ export interface IUser extends Document {
     emailVerified: Date | null;
     isTwoFactorEnabled: boolean;
     emailPendingVerification?: string;
-    coursesStatus: ICourse[];
     createdAt: Date;
     updatedAt: Date;
-}
-
-export interface ICourse {
-    id: string;
-    completedAt: number | null; // Unix timestamp in seconds
-    status: CourseCompletionStatus;
 }

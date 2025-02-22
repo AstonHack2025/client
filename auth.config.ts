@@ -4,7 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 
 import { UserProvider } from "@/lib/models/types";
 import { SignInValidation } from "@/lib/validations/auth";
-import { fetchUserByEmail, fetchUserById, signInWithOauth } from "@/lib/api-handler/user";
+import { fetchUserByEmail, fetchUserById } from "@/lib/api-handler/user";
 import { fetchConfirmationByUserId, deleteConfirmationById } from "@/lib/api-handler/twofac";
 
 export default {
@@ -34,10 +34,6 @@ export default {
     ],
     callbacks: {
         async signIn({ user, account, profile }) {
-            if (account && account?.provider !== UserProvider.CREDENTIALS && profile) {
-                return await signInWithOauth({ account, profile });
-            }
-
             if (account?.provider === UserProvider.CREDENTIALS && user._id) {
                 const existingUser = await fetchUserById(user._id);
                 if (!existingUser?.emailVerified) return false;
@@ -71,7 +67,6 @@ export default {
                 session.user.email = token.email as string;
                 session.user.provider = token.provider as UserProvider;
                 session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
-                session.user.coursesStatus = user.coursesStatus;
             }
 
             return session;

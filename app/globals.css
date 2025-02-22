@@ -97,7 +97,7 @@
   }
   
   /* ====== ANIMATION ====== */
-  .laoding-animation svg {
+  .loading-animation svg {
     animation: blink-animation 3s infinite both;
   }
 
