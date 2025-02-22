@@ -62,7 +62,7 @@ export const SettingsForm = () => {
     return (
         <Card className="w-full">
             <CardHeader>
-                <p className="text-2xl font-semibold text-center">Settings</p>
+                <p className="text-4xl font-semibold text-center">Settings</p>
             </CardHeader>
             <CardContent>
                 <Form {...form}>
