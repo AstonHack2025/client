@@ -1,36 +1,16 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# User Manual
+---
 
-## Getting Started
+### Getting started:
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Make sure you have Node.js [v20.10.0+](https://nodejs.org/download/release/v20.10.0/) installed 
+2. Copy the contents of "website/.env.example" to "website/.env"
+3. Fill in the environment variables as follows:  
+> - `NEXT_PUBLIC_APP_URL` can be `http://localhost:3000` unless you're planning to publish this website in the future > then you use the actual domain name  
+> - `AUTH_SECRET` and `TOKEN_SECRET` can be any random string as it is used to Sign the JWT Tokens we create for authentication  
+> - `MONGODB_URI` Create a Free database and paste the Connection URI here Here's a short [tutorial](https://youtu.be/pILdgCr4w3s) on how to do so  
+> - Next is creating a Google OAuth2.0 Client, go to https://console.cloud.google.com/welcome -> APIs and services -> Credentials -> + Create Credentials -> after creating them -> Accept the consents in OAuth consent screen and publish app then you can fill in `GOOGLE_CLIENT_ID` & `GOOGLE_CLIENT_SECRET`
+> - Go to https://resend.com/ and create an Account for free and it will give you an API key, you can paste in `RESEND_API_KEY` and use the same email for `RESEND_EMAIL_URL`
+> - For `EMAIL_USER` You can use any email here (you will be sending emails from it) usually this will be the business' email e.g. contact@company.com. To get `EMAIL_PASSWORD` go to [this link](https://myaccount.google.com/apppasswords) and sign in -> create new app and copy the password, it will be in this format `xxxx xxxx xxxx xxxx`  
+4. Open a new terminal and run `cd website; npm i; npm run dev` to start the project in development environment
+5. To create a final production build, you can run `npm run build` then `npm run start` to run it
