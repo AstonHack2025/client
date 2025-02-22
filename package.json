@@ -1,0 +1,23 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run next\" \"npm run electron\"",
+    "next": "next dev",
+    "electron": "wait-on http://localhost:3000 && electron src/electron/main.js",
+    "build": "next build && next export",
+    "start": "electron src/electron/main.js",
+    "package": "electron-builder"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "next": "15.1.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1"
+  }
+}
