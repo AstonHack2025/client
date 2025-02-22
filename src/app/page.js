@@ -1,6 +1,19 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 export default function Home() {
+  const [message, setMessage] = useState("Loading...");
+
+  // Fetch data from Express.js server
+  useEffect(() => {
+    fetch("http://localhost:3001/api/hello")
+      .then((res) => res.json())
+      .then((data) => setMessage(data.message))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -12,6 +25,10 @@ export default function Home() {
           height={38}
           priority
         />
+        
+        {/* Display data from the Express server */}
+        <p className="text-lg font-semibold">{message}</p>
+
         <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2">
             Get started by editing{" "}

@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "proxy":"http://localhost:5000",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run next\" \"npm run electron\"",
@@ -11,10 +12,14 @@
     "package": "electron-builder"
   },
   "dependencies": {
+    "concurrently": "^9.1.2",
     "dotenv": "^16.4.7",
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8",
     "next": "15.1.7",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "wait-on": "^8.0.2"
   },
   "devDependencies": {
     "postcss": "^8",
