@@ -7,7 +7,6 @@ import PersonalInfoForm from "../_components/Personal-info";
 import { Button } from "@/components/ui/button";
 
 const SettingsPage = () => {
-
     function onsubmit(values: string[]) {
         console.log(values);
     }
@@ -28,20 +27,17 @@ const SettingsPage = () => {
                                 <PersonalInfoForm />
                                 <div className="col-span-2 px-6">
                                     <Button size="lg" className="w-full mt-3" type="submit" disabled={false}>
-                                    {"Next"}
+                                        {"Save"}
                                     </Button>
                                 </div>
-                                
                             </div>
-                            
                         </CardContent>
-                    </Card> 
+                    </Card>
                 </div>
                 <div className="col-span-2 p-10">
                     <SettingsForm />
                 </div>
             </section>
-            
         </div>
     );
 };
