@@ -8,11 +8,13 @@ import { useTheme } from "next-themes";
 export const Navbar = () => {
     const { theme, setTheme } = useTheme();
     return (
-        <header className="sticky top-0 z-50 w-full border-b bg-white dark:border-gray-800 dark:bg-gray-950">
+        <header className="sticky top-0 z-50 w-full border-b bg-white dark:border-gray-800 dark:bg-gray-950 shadow-md">
             <div className="flex h-16 w-full items-center justify-between px-4 md:px-6">
                 {/* Left: Logo */}
                 <div className="flex flex-shrink-0">
-                    <div className="font-bold text-xl">Student Buddy</div>
+                    <Link href="/dashboard">
+                        <div className="font-bold text-xl">Student Buddy</div>
+                    </Link>
                 </div>
 
                 {/* Right: User Button & Mode Toggle */}

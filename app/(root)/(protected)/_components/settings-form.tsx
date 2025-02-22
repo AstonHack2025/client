@@ -60,7 +60,7 @@ export const SettingsForm = () => {
     }
 
     return (
-        <Card className="w-full">
+        <Card className="w-full mt-1 py-3 px-5">
             <CardHeader>
                 <p className="text-4xl font-semibold text-center">Settings</p>
             </CardHeader>

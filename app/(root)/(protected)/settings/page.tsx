@@ -13,30 +13,36 @@ const SettingsPage = () => {
     }
 
     return (
-        <>
+        <div className="h-screen">
             <Navbar />
-            <section className="h-full flex items-center justify-center h-screen">
-                <div className="flex-auto w-[70%] h-full py-10 pl-10">
-                    <Card className="w-full h-[63.5%] ">
-                        <CardHeader className="text-4xl font-semibold text-center mb-1">Customization</CardHeader>
-                        <p className="text-center text-lg mt-2">Tell us more about yourself!</p>
-
+            <section className="grid grid-cols-5">
+                <div className="col-span-3 p-10 ">
+                    <Card className="flex flex-col justify-center p-5">
+                        <div className="flex flex-col items-center">
+                            <CardHeader className="text-4xl font-semibold">Customization</CardHeader>
+                            <p className="text-lg mt-2">Tell us more about yourself!</p>
+                        </div>
                         <CardContent className="p-5 flex flex-col">
-                            <div className="flex ">
+                            <div className="grid grid-cols-2">
                                 <AcademicsForm />
                                 <PersonalInfoForm />
+                                <div className="col-span-2 px-6">
+                                    <Button size="lg" className="w-full mt-3" type="submit" disabled={false}>
+                                    {"Next"}
+                                    </Button>
+                                </div>
+                                
                             </div>
-                            <Button size="lg" className="w-[96%] mt-3 ml-6" type="submit" disabled={false}>
-                                {"Next"}
-                            </Button>
+                            
                         </CardContent>
                     </Card> 
                 </div>
-                <div className="flex-auto w-[30%] h-full p-10">
+                <div className="col-span-2 p-10">
                     <SettingsForm />
                 </div>
             </section>
-        </>
+            
+        </div>
     );
 };
 
