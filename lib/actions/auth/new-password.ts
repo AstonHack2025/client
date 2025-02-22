@@ -30,7 +30,7 @@ export const newPassword = async (values: NewPasswordInput, token?: string | nul
 
     await connectDB();
 
-    const existingUser = await User.findOne({ email: res.email });
+    const existingUser = await User.findOne({ email: res.email.toLowerCase() });
 
     if (!existingUser) {
         return { error: "Email does not exist!" };
