@@ -81,13 +81,13 @@ export default function ChatLayout() {
                 alt={message.user.name}
                 className="w-8 h-8 rounded-full"
               />
-              <span className="font-bold text-white">{message.user.name}</span>
+              <span className="font-bold dark:text-white">{message.user.name}</span>
               <span className="text-gray-400 text-xs">
                 {message.timestamp}
               </span>
             </div>
             {/* Message content */}
-            <div className="bg-gray-800 text-white rounded p-2 shadow-sm max-w-[100%]">
+            <div className="dark:bg-gray-800 dark:text-white rounded p-2 shadow-sm max-w-[100%]">
               {message.text}
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function ChatLayout() {
         <div ref={messagesEndRef} />
       </div>
       {/* Input area */}
-      <div className="border-t p-4">
+      <div className="fixed w-full bottom-0 border-t p-4">
         <div className="flex">
           <Input
             value={currentMessage}
