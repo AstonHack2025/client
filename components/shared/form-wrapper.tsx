@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Header } from "@/components/shared/header";
-import { SocialButton } from "@/components/shared/social-button";
 import { BackButton } from "@/components/shared/back-button";
 
 interface FormWrapperProps {
@@ -10,24 +9,25 @@ interface FormWrapperProps {
     headerLabel: string;
     backButtonLabel: string;
     backButtonHref: string;
-    showSocial?: boolean;
+    showSignUp: boolean;
 }
 
-export const FormWrapper = ({ children, headerLabel, backButtonLabel, backButtonHref, showSocial }: FormWrapperProps) => {
+export const FormWrapper = ({ children, headerLabel, backButtonLabel, backButtonHref, showSignUp }: FormWrapperProps) => {
     return (
         <Card className="w-[360px] shadow-md py-4">
             <CardHeader>
                 <Header label={headerLabel} />
             </CardHeader>
             <CardContent>{children}</CardContent>
-            {showSocial && (
+            {showSignUp ? (
                 <CardFooter>
-                    <SocialButton />
+                    <BackButton label={backButtonLabel} href={backButtonHref} />
+                </CardFooter>
+            ) : (
+                <CardFooter>
+                    <BackButton label={backButtonLabel} href={backButtonHref} />
                 </CardFooter>
             )}
-            <CardFooter>
-                <BackButton label={backButtonLabel} href={backButtonHref} />
-            </CardFooter>
         </Card>
     );
 };

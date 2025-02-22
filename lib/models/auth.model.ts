@@ -11,6 +11,10 @@ export const userSchema = new mongoose.Schema(
         emailVerified: { type: Date, default: null },
         isTwoFactorEnabled: { type: Boolean, default: false },
         emailPendingVerification: { type: String },
+        course: { type: String },
+        degree: { type: String },
+        university: { type: String },
+        year: { type: String },
     },
     { timestamps: true, versionKey: false }
 );
