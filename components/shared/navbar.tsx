@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { ModeToggle } from "@/components/shared/mode-toggle";
 import { UserButton } from "@/components/shared/user-button";
-import { PointsButton } from "@/components/shared/points-button";
 import { useTheme } from "next-themes";
 
 export const Navbar = () => {
@@ -41,7 +40,6 @@ export const Navbar = () => {
 
                 {/* Right: User Button & Mode Toggle */}
                 <div className="flex items-center space-x-4 flex-shrink-0">
-                    <PointsButton /> {/*add the score button to the nav bar*/}
                     <UserButton />
                     <ModeToggle />
                 </div>
