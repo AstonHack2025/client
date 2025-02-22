@@ -38,7 +38,7 @@ export const settings = async (values: SettingsInput) => {
     }
 
     if (values.email && values.email !== user.email) {
-        const dbUser = await User.findOne({ email: values.email });
+        const dbUser = await User.findOne({ email: values.email.toLowerCase() });
 
         if (dbUser && dbUser._id !== user._id) {
             return { error: "Email already in use!" };

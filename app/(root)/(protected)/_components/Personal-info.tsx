@@ -6,12 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Input } from "@/components/ui/input";
 
-export default function PersonalInfoForm() {
+export default function PersonalInfoForm(){
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
 
+    // Infer the form's data type from your Zod validation
     const form = useForm<z.infer<typeof PersonalInfoValidation>>({
         resolver: zodResolver(PersonalInfoValidation),
         defaultValues: {

@@ -20,7 +20,8 @@ export const signUpWithCredentials = async (values: SignUpWithCredentialsInput) 
         return { error: "Invalid fields!" };
     }
 
-    const { email, password, name } = validatedFields.data;
+    let { email, password, name } = validatedFields.data;
+    email = email.toLowerCase();
 
     await connectDB();
 
