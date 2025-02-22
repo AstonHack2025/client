@@ -11,6 +11,7 @@ type Message = {
     name: string;
     avatarUrl: string;
   };
+  timestamp: string;
 };
 
 export default function ChatLayout() {
@@ -28,6 +29,7 @@ export default function ChatLayout() {
           name: currentUser.name,
           avatarUrl: currentUser.avatarUrl,
         },
+        timestamp: new Date().toLocaleString(),
       };
       setMessages((prev) => [...prev, newMessage]);
       setCurrentMessage("");
@@ -53,6 +55,9 @@ export default function ChatLayout() {
                 className="w-8 h-8 rounded-full"
               />
               <span className="font-bold text-white">{message.user.name}</span>
+              <span className="text-gray-400 text-xs">
+                {message.timestamp}
+              </span>
             </div>
             {/* Message content */}
             <div className="bg-gray-800 text-white rounded p-2 shadow-sm max-w-[100%]">
