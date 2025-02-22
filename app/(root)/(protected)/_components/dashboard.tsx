@@ -71,7 +71,7 @@ export default function Dashboard() {
 
         {/* Main Content */}
         <main className="max-w-4xl mx-auto p-8">
-          <h1 className="text-3xl font-bold mb-4">Welcome to Your Student Buddy</h1>
+          <h1 className="text-3xl font-bold mb-4">Welcome to Your Study Buddy</h1>
           <p className="mb-6 text-gray-700 dark:text-gray-300">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
             tincidunt vestibulum ligula, eu varius nunc cursus a. Nulla facilisi.
