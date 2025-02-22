@@ -6,11 +6,7 @@ import { UserButton } from "@/components/shared/user-button";
 import { PointsButton } from "@/components/shared/points-button";
 import { useTheme } from "next-themes";
 
-interface scoreInterface {
-    score: number;
-}
-
-export const Navbar: React.FC<scoreInterface> = ({ score }) => {
+export const Navbar = () => {
     const { theme, setTheme } = useTheme();
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-white dark:border-gray-800 dark:bg-gray-950">
@@ -45,7 +41,7 @@ export const Navbar: React.FC<scoreInterface> = ({ score }) => {
 
                 {/* Right: User Button & Mode Toggle */}
                 <div className="flex items-center space-x-4 flex-shrink-0">
-                    <PointsButton score={score} /> {/*add the score button to the nav bar*/}
+                    <PointsButton /> {/*add the score button to the nav bar*/}
                     <UserButton />
                     <ModeToggle />
                 </div>
