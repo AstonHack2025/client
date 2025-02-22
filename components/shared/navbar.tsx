@@ -13,7 +13,7 @@ export const Navbar = () => {
                 {/* Left: Logo */}
                 <div className="flex flex-shrink-0">
                     <Link href="/dashboard">
-                        <div className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-400 to-blue-500">Student Buddy</div>
+                        <div className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r dark:from-white from-black via-cyan-400 to-blue-500 dark:via-cyan-400 dark:to-blue-500">Student Buddy</div>
                     </Link>
                 </div>
 
