@@ -56,6 +56,11 @@ export const UserButton = () => {
                         <AuthLink isSignedIn={user ? true : false} />
                     </DropdownMenuItem>
                 </div>
+                <div className="p-3 hover:bg-gray-700 rounded-lg transition duration-300">
+                    <Link href="/settings">
+                        <p>Profile Settings</p>
+                    </Link>
+                </div>
             </DropdownMenuContent>
         </DropdownMenu>
     );

@@ -4,6 +4,9 @@ import { Input } from "@/components/ui/input";
 import { useCurrentUser } from "@/hooks/use-session";
 import io from "socket.io-client";
 import { v4 as uuidv4 } from "uuid"; // Import UUID generator
+import ImageUpload from "@/components/shared/image-upload";
+import { Button } from "@/components/ui/button";
+import { DialogDescription, DialogHeader, Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 const socket = io("http://localhost:3001"); // Connect to the backend server
 
@@ -15,13 +18,19 @@ type Message = {
     avatarUrl: string;
   };
   timestamp: string;
+  attachment?: {
+    fileName: string;
+    fileUrl: string; // URL or path to the uploaded file
+  };
 };
 
 export default function ChatLayout() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentMessage, setCurrentMessage] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null); // Track selected file
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const currentUser = useCurrentUser();
+  const fileInputRef = useRef<HTMLInputElement>(null); // Reference to the file input
 
   // Track sent message IDs to avoid duplicates
   const [sentMessageIds, setSentMessageIds] = useState<Set<string>>(new Set());
@@ -41,15 +50,21 @@ export default function ChatLayout() {
   }, [sentMessageIds]);
 
   function handleSend() {
-    if (currentMessage.trim() && currentUser) {
+    if (currentMessage.trim() || selectedFile) {
       const newMessage: Message = {
         id: uuidv4(), // Use UUID for unique ID
         text: currentMessage.trim(),
         user: {
-          name: currentUser.name ?? "",
-          avatarUrl: currentUser.image ?? "",
+          name: currentUser?.name ?? "",
+          avatarUrl: currentUser?.image ?? "",
         },
         timestamp: new Date().toLocaleString(),
+        attachment: selectedFile
+          ? {
+              fileName: selectedFile.name,
+              fileUrl: URL.createObjectURL(selectedFile), // Create a temporary URL for the file
+            }
+          : undefined,
       };
 
       // Add the message locally
@@ -58,8 +73,10 @@ export default function ChatLayout() {
 
       // Send the message to the server
       socket.emit("sendMessage", newMessage);
-      // Clear the input field
+
+      // Clear the input field and reset the file state
       setCurrentMessage("");
+      setSelectedFile(null);
     }
   }
 
@@ -67,6 +84,14 @@ export default function ChatLayout() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Handle file selection
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
 
   return (
     <div className="flex flex-col h-full">
@@ -82,13 +107,23 @@ export default function ChatLayout() {
                 className="w-8 h-8 rounded-full"
               />
               <span className="font-bold text-white">{message.user.name}</span>
-              <span className="text-gray-400 text-xs">
-                {message.timestamp}
-              </span>
+              <span className="text-gray-400 text-xs">{message.timestamp}</span>
             </div>
             {/* Message content */}
             <div className="bg-gray-800 text-white rounded p-2 shadow-sm max-w-[100%]">
-              {message.text}
+              {message.text && <p>{message.text}</p>}
+              {message.attachment && (
+                <div className="mt-2">
+                  <a
+                    href={message.attachment.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:underline"
+                  >
+                    {message.attachment.fileName}
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -96,7 +131,7 @@ export default function ChatLayout() {
       </div>
       {/* Input area */}
       <div className="border-t p-4">
-        <div className="flex">
+        <div className="flex items-center">
           <Input
             value={currentMessage}
             onChange={(e) => setCurrentMessage(e.target.value)}
@@ -109,6 +144,34 @@ export default function ChatLayout() {
               }
             }}
           />
+          {/* Paperclip button */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="rounded-full shadow" variant="outline">
+                  File upload
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle className="text-center">
+                    Upload your files
+                  </DialogTitle>
+                  <DialogDescription className="text-center">
+                    The only file upload you will ever need
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <ImageUpload />
+                </div>
+              </DialogContent>
+            </Dialog>
+          {/* Hidden file input */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileSelect}
+          />
           <button
             onClick={handleSend}
             className="bg-blue-600 text-white px-4 py-2 rounded"
@@ -116,6 +179,12 @@ export default function ChatLayout() {
             Send
           </button>
         </div>
+        {/* Display selected file name */}
+        {selectedFile && (
+          <div className="mt-2 text-sm text-gray-400">
+            Attached: {selectedFile.name}
+          </div>
+        )}
       </div>
     </div>
   );
