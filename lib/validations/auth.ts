@@ -18,8 +18,6 @@ export const PersonalInfoValidation = z.object({
     gender: z.string().min(1, "gender is required"),
     pronouns: z.string().min(1, "pronouns is required"),
     city: z.string().min(1, "city is required"),
-    country: z.string().min(1, "country is required")
-
 })
 
 export const SignUpValidation = z

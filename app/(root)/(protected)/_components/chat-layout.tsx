@@ -143,7 +143,8 @@ export default function ChatLayout() {
               </span>
             </div>
             {/* Message content */}
-            <div className="bg-gray-800 text-white rounded p-2 shadow-sm max-w-[100%]">
+            <div className="dark:bg-gray-800 dark:text-white rounded p-2 shadow-sm max-w-[100%]">
+
               {message.text && <p>{message.text}</p>}
               {message.attachment && (
                 <div className="mt-2">
@@ -164,8 +165,8 @@ export default function ChatLayout() {
       </div>
 
       {/* Input area */}
-      <div className="border-t p-4">
-        <div className="flex items-center">
+      <div className="fixed w-full bottom-0 border-t p-4">
+        <div className="flex">
           <Input
             value={currentMessage}
             onChange={(e) => setCurrentMessage(e.target.value)}
