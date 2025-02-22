@@ -59,10 +59,12 @@ export default function Dashboard() {
     console.log("Selected Purpose:", selectedPurpose);
     console.log("Selected Duration:", selectedDuration);
     setShowModal(false);
+
     router.push("/more-functionality");
   };
 
   return (
+
     // Apply theme class to the root container
     <div className={`${theme === "dark" ? "dark" : ""}`}>
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
