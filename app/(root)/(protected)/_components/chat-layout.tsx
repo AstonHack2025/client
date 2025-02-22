@@ -1,8 +1,11 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
-// Import your hook to get current user info. Adjust the path as needed.
 import { useCurrentUser } from "@/hooks/use-session";
+import io from "socket.io-client";
+import { v4 as uuidv4 } from "uuid"; // Import UUID generator
+
+const socket = io("http://localhost:3001"); // Connect to the backend server
 
 type Message = {
   id: string;
@@ -20,18 +23,42 @@ export default function ChatLayout() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const currentUser = useCurrentUser();
 
+  // Track sent message IDs to avoid duplicates
+  const [sentMessageIds, setSentMessageIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    // Listen for new messages from the server
+    socket.on("receiveMessage", (message: Message) => {
+      // Check if the message ID is already in the sentMessageIds set
+      if (!sentMessageIds.has(message.id)) {
+        setMessages((prev) => [...prev, message]);
+        setSentMessageIds((prev) => new Set(prev).add(message.id)); // Add the ID to the set
+      }
+    });
+    return () => {
+      socket.off("receiveMessage"); // Clean up the event listener
+    };
+  }, [sentMessageIds]);
+
   function handleSend() {
     if (currentMessage.trim() && currentUser) {
       const newMessage: Message = {
-        id: Date.now().toString(),
+        id: uuidv4(), // Use UUID for unique ID
         text: currentMessage.trim(),
         user: {
-          name: currentUser.name,
-          avatarUrl: currentUser.avatarUrl,
+          name: currentUser.name ?? "",
+          avatarUrl: currentUser.image ?? "",
         },
         timestamp: new Date().toLocaleString(),
       };
+
+      // Add the message locally
       setMessages((prev) => [...prev, newMessage]);
+      setSentMessageIds((prev) => new Set(prev).add(newMessage.id)); // Track the ID
+
+      // Send the message to the server
+      socket.emit("sendMessage", newMessage);
+      // Clear the input field
       setCurrentMessage("");
     }
   }
@@ -67,7 +94,6 @@ export default function ChatLayout() {
         ))}
         <div ref={messagesEndRef} />
       </div>
-
       {/* Input area */}
       <div className="border-t p-4">
         <div className="flex">
