@@ -1,15 +1,31 @@
 import * as z from "zod";
 
 export const SignInValidation = z.object({
-    email: z.string().min(1, "Email is required").email("Invalid email"),
+    email: z.string().min(1, "Email is required").email("Invalid email").includes(".ac.uk"),
     password: z.string().min(1, "Password is required").min(8, "Password must be 8+ characters"),
     code: z.optional(z.string()),
 });
 
+export const AcademicsValidation = z.object({
+    degree: z.string().min(1, "Degree is required"),
+    university: z.string().min(1, "University is required"),
+    year: z.string().min(1, "Year is required"),
+    course: z.string().min(1, "Course is required"),
+})
+
+export const PersonalInfoValidation = z.object({
+    age: z.string().min(1, "age is required"),
+    gender: z.string().min(1, "gender is required"),
+    pronouns: z.string().min(1, "pronouns is required"),
+    city: z.string().min(1, "city is required"),
+    country: z.string().min(1, "country is required"),
+
+})
+
 export const SignUpValidation = z
     .object({
         name: z.string().min(1, "Username is required").max(50, "Username must be less than 50 characters"),
-        email: z.string().min(1, "Email is required").email("Invalid email"),
+        email: z.string().min(1, "Email is required").email("Invalid email").includes(".ac.uk"),
         password: z.string().min(1, "Password is required").min(8, "Password must be 8+ characters"),
         confirmPassword: z.string().min(1, "Password confirmation is required"),
     })
