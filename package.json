@@ -6,7 +6,7 @@
     "dev": "concurrently \"npm run next\" \"npm run electron\"",
     "next": "next dev",
     "electron": "wait-on http://localhost:3000 && electron electron/main.js",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "electron electron/main.js",
     "package": "electron-builder"
   },
