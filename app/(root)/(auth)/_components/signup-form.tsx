@@ -55,10 +55,10 @@ export const SignUpForm = () => {
                             control={form.control}
                             name="name"
                             render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Username</FormLabel>
+                                <FormItem className="space-y-2">
+                                    <FormLabel>Full Name</FormLabel>
                                     <FormControl>
-                                        <Input disabled={isPending} placeholder="your username" {...field} />
+                                        <Input disabled={isPending} placeholder="your full name" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -68,7 +68,7 @@ export const SignUpForm = () => {
                             control={form.control}
                             name="email"
                             render={({ field }) => (
-                                <FormItem>
+                                <FormItem className="space-y-2">
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
                                         <Input disabled={isPending} placeholder="mail@example.com" {...field} />
@@ -81,7 +81,7 @@ export const SignUpForm = () => {
                             control={form.control}
                             name="password"
                             render={({ field }) => (
-                                <FormItem>
+                                <FormItem className="space-y-2">
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
                                         <Input disabled={isPending} type="password" placeholder="your password" {...field} />
@@ -94,8 +94,8 @@ export const SignUpForm = () => {
                             control={form.control}
                             name="confirmPassword"
                             render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Confirm password</FormLabel>
+                                <FormItem className="space-y-2">
+                                    <FormLabel>Confirm Password</FormLabel>
                                     <FormControl>
                                         <Input disabled={isPending} type="password" placeholder="confirm your password" {...field} />
                                     </FormControl>
