@@ -2,11 +2,12 @@
   "name": "ibm-skill-build",
   "version": "1.0.0",
   "private": true,
+  "main":"electron/main.js",
   "scripts": {
     "dev": "concurrently \"npm run next\" \"npm run electron\"",
     "next": "next dev",
     "electron": "wait-on http://localhost:3000 && electron electron/main.js",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "electron electron/main.js",
     "package": "electron-builder"
   },
@@ -26,7 +27,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.7",
-    "electron": "^34.2.0",
     "framer-motion": "^12.4.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.475.0",
