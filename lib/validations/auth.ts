@@ -6,19 +6,16 @@ export const SignInValidation = z.object({
     code: z.optional(z.string()),
 });
 
-export const AcademicsValidation = z.object({
-    degree: z.string().min(1, "Degree is required"),
-    university: z.string().min(1, "University is required"),
-    year: z.string().min(1, "Year is required"),
-    course: z.string().min(1, "Course is required"),
-})
-
-export const PersonalInfoValidation = z.object({
-    age: z.string().min(1, "age is required"),
-    gender: z.string().min(1, "gender is required"),
-    pronouns: z.string().min(1, "pronouns is required"),
-    city: z.string().min(1, "city is required"),
-})
+export const CustomizationsValidation = z.object({
+    degree: z.optional(z.string().min(1, "Degree is required")),
+    university: z.optional(z.string().min(1, "University is required")),
+    year: z.optional(z.string().min(1, "Year is required")),
+    course: z.optional(z.string().min(1, "Course is required")),
+    age: z.optional(z.string().min(1, "age is required")),
+    gender: z.optional(z.string().min(1, "gender is required")),
+    pronouns: z.optional(z.string().min(1, "pronouns is required")),
+    city: z.optional(z.string().min(1, "city is required")),
+});
 
 export const SignUpValidation = z
     .object({

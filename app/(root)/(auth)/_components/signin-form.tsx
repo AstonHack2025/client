@@ -56,7 +56,7 @@ export const SignInForm = () => {
     }
 
     return (
-        <FormWrapper headerLabel="Welcome back" backButtonLabel="Don't have an account?" backButtonHref="/signup" showSocial>
+        <FormWrapper headerLabel="Welcome back" backButtonLabel="Don't have an account?" backButtonHref="/signup">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
                     <div className="space-y-4">
