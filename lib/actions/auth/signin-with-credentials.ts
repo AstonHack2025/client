@@ -78,7 +78,7 @@ export const signInWithCredentials = async (values: SignInInput, callbackUrl?: s
             password,
             redirect: false,
         });
-        return { url: callbackUrl || routes.defaultLoginRedirect };
+        return { url: callbackUrl || routes.dashboard };
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

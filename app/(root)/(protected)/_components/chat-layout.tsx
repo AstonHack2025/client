@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { useCurrentUser } from "@/hooks/use-session";
 import io from "socket.io-client";
-import { v4 as uuidv4 } from "uuid"; // Import UUID generator
+import { v4 as uuidv4 } from "uuid";
 import ImageUpload from "@/components/shared/image-upload";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const socket = io("http://localhost:3001"); // Connect to the backend server
+const socket = io("http://localhost:3001");
 
 type Message = {
   id: string;
@@ -27,96 +27,72 @@ type Message = {
   timestamp: string;
   attachment?: {
     fileName: string;
-    fileUrl: string; // URL or path to the uploaded file
+    fileUrl: string;
   };
 };
 
 export default function ChatLayout() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentMessage, setCurrentMessage] = useState("");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null); // Track selected file
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [users, setUsers] = useState<{ name: string; avatarUrl: string }[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const currentUser = useCurrentUser();
-  const fileInputRef = useRef<HTMLInputElement>(null); // Reference to the file input
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [sentMessageIds, setSentMessageIds] = useState<Set<string>>(new Set());
 
-  // Load messages from localStorage on mount
-  useEffect(() => {
-    const storedMessages = localStorage.getItem("chatMessages");
-    if (storedMessages) {
-      const parsedMessages: Message[] = JSON.parse(storedMessages);
-
-      // Filter out expired messages (e.g., older than 1 hour)
-      const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString(); // 1 hour ago
-      const validMessages = parsedMessages.filter(
-        (msg) => new Date(msg.timestamp) > new Date(oneHourAgo)
-      );
-
-      setMessages(validMessages);
-    }
-  }, []);
-
-  // Listen for new messages from the server
+  // Listen for messages
   useEffect(() => {
     socket.on("receiveMessage", (message: Message) => {
       if (!sentMessageIds.has(message.id)) {
         setMessages((prev) => [...prev, message]);
-        setSentMessageIds((prev) => new Set(prev).add(message.id)); // Add the ID to the set
-        saveMessagesToLocalStorage([...messages, message]); // Save updated messages
+        setSentMessageIds((prev) => new Set(prev).add(message.id));
       }
     });
-
     return () => {
-      socket.off("receiveMessage"); // Clean up the event listener
+      socket.off("receiveMessage");
     };
-  }, [sentMessageIds, messages]);
+  }, [sentMessageIds]);
 
-  // Scroll to bottom when messages update
+  // Listen for user list
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  // Function to save messages to localStorage
-  const saveMessagesToLocalStorage = (updatedMessages: Message[]) => {
-    localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
-  };
+    socket.on("userList", (userList: { name: string; avatarUrl: string }[]) => {
+      setUsers(userList);
+    });
+    return () => {
+      socket.off("userList");
+    };
+  }, []);
 
   function handleSend() {
     if (currentMessage.trim() || selectedFile) {
       const newMessage: Message = {
-        id: uuidv4(), // Use UUID for unique ID
+        id: uuidv4(),
         text: currentMessage.trim(),
         user: {
           name: currentUser?.name ?? "",
           avatarUrl: currentUser?.image ?? "",
         },
-        timestamp: new Date().toISOString(), // Use ISO string for easier comparison
+        timestamp: new Date().toLocaleString(),
         attachment: selectedFile
           ? {
               fileName: selectedFile.name,
-              fileUrl: URL.createObjectURL(selectedFile), // Create a temporary URL for the file
+              fileUrl: URL.createObjectURL(selectedFile),
             }
           : undefined,
       };
-
-      // Add the message locally
-      const updatedMessages = [...messages, newMessage];
-      setMessages(updatedMessages);
-      setSentMessageIds((prev) => new Set(prev).add(newMessage.id)); // Track the ID
-
-      // Save messages to localStorage
-      saveMessagesToLocalStorage(updatedMessages);
-
-      // Send the message to the server
+      setMessages((prev) => [...prev, newMessage]);
+      setSentMessageIds((prev) => new Set(prev).add(newMessage.id));
       socket.emit("sendMessage", newMessage);
-
-      // Clear the input field and reset the file state
       setCurrentMessage("");
       setSelectedFile(null);
     }
   }
 
-  // Handle file selection
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -125,101 +101,150 @@ export default function ChatLayout() {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Messages container */}
-      <div className="flex-1 overflow-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <div key={message.id}>
-            {/* Display user avatar and name */}
-            <div className="flex items-center space-x-2 mb-1">
-              <img
-                src={message.user.avatarUrl}
-                alt={message.user.name}
-                className="w-8 h-8 rounded-full"
-              />
-              <span className="font-bold text-white">{message.user.name}</span>
-              <span className="text-gray-400 text-xs">
-                {new Date(message.timestamp).toLocaleString()}
-              </span>
-            </div>
-            {/* Message content */}
-            <div className="dark:bg-gray-800 dark:text-white rounded p-2 shadow-sm max-w-[100%]">
+    <div className="h-[90%] flex">
 
-              {message.text && <p>{message.text}</p>}
-              {message.attachment && (
-                <div className="mt-2">
-                  <a
-                    href={message.attachment.fileUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-400 hover:underline"
-                  >
-                    {message.attachment.fileName}
-                  </a>
-                </div>
-              )}
-            </div>
+      {/* Left-side panel */}
+        <div className="w-64 bg-gray-100 dark:bg-gray-800 p-4 border-r flex flex-col h-full shadow-md dark:border-gray-700">
+          {/* Users section */}
+          <div>
+            <h2 className="text-lg font-bold mb-2 text-black dark:text-white">
+              Users in Chat
+            </h2>
+            <ul className="max-h-48 overflow-y-auto mb-4">
+              {users.map((user, index) => (
+                <li key={index} className="flex items-center space-x-2 mb-1">
+                  <img
+                    src={user.avatarUrl}
+                    alt={user.name}
+                    className="w-6 h-6 rounded-full"
+                  />
+                  <span className="text-black dark:text-white">{user.name}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
 
-      {/* Input area */}
-      <div className="fixed w-full bottom-0 border-t p-4">
-        <div className="flex">
-          <Input
-            value={currentMessage}
-            onChange={(e) => setCurrentMessage(e.target.value)}
-            placeholder="Type your message..."
-            className="flex-1 mr-2"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                handleSend();
-              }
-            }}
-          />
-          {/* Paperclip button */}
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="rounded-full shadow" variant="outline">
-                File upload
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle className="text-center">
-                  Upload your files
-                </DialogTitle>
-                <DialogDescription className="text-center">
-                  The only file upload you will ever need
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <ImageUpload />
-              </div>
-            </DialogContent>
-          </Dialog>
-          {/* Hidden file input */}
-          <input
-            type="file"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            onChange={handleFileSelect}
-          />
-          <button
-            onClick={handleSend}
-            className="bg-blue-600 text-white px-4 py-2 rounded"
-          >
-            Send
-          </button>
+          {/* Buttons section */}
+          <div className="space-y-2">
+            <Button className="w-full flex justify-center space-x-1">
+              <p>Open Whiteboard</p> 
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+              </svg>
+            </Button>
+            <Button className="w-full flex justify-center space-x-1">
+              <p>Open Code Editor</p>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m6.75 7.5 3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0 0 21 18V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v12a2.25 2.25 0 0 0 2.25 2.25Z" />
+              </svg>
+            </Button>
+            <Button className="w-full flex justify-center space-x-1">
+              <p>Start Video Call</p>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+              </svg>
+            </Button>
+          </div>
         </div>
-        {/* Display selected file name */}
-        {selectedFile && (
-          <div className="mt-2 text-sm text-gray-400">
-            Attached: {selectedFile.name}
+
+      {/* Chat container */}
+      <div className="flex-1 flex flex-col">
+        {/* Messages container */}
+        <div className="flex-1 overflow-auto p-4 space-y-4">
+          {messages.map((message) => (
+            <div key={message.id}>
+              <div className="flex items-center space-x-2 mb-1">
+                <img
+                  src={message.user.avatarUrl}
+                  alt={message.user.name}
+                  className="w-8 h-8 rounded-full"
+                />
+                <span className="font-bold dark:text-white">
+                  {message.user.name}
+                </span>
+                <span className="text-gray-400 text-xs">
+                  {message.timestamp}
+                </span>
+              </div>
+              <div className="dark:bg-gray-800 dark:text-white rounded p-2 shadow-sm max-w-[100%]">
+                {message.text && <p>{message.text}</p>}
+                {message.attachment && (
+                  <div className="mt-2">
+                    <a
+                      href={message.attachment.fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-400 hover:underline"
+                    >
+                      {message.attachment.fileName}
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Input area */}
+        <div className="border-t bg-white dark:bg-gray-800 p-4">
+          <div className="flex">
+            <Input
+              value={currentMessage}
+              onChange={(e) => setCurrentMessage(e.target.value)}
+              placeholder="Type your message..."
+              className="flex-1 mr-2"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSend();
+                }
+              }}
+            />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="rounded-full shadow" variant="outline">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
+                  </svg>
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle className="text-center">
+                    Upload your files
+                  </DialogTitle>
+                  <DialogDescription className="text-center">
+                    The only file upload you will ever need
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <ImageUpload />
+                </div>
+              </DialogContent>
+            </Dialog>
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileSelect}
+            />
+            <Button 
+              className="rounded-full shadow"
+              onClick={handleSend}  
+              variant="default"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                </svg>
+            </Button>
           </div>
-        )}
+          {selectedFile && (
+            <div className="mt-2 text-sm text-gray-400">
+              Attached: {selectedFile.name}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
