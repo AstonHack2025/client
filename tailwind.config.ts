@@ -5,6 +5,15 @@ export default {
     content: ["./pages/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}", "./app/**/*.{js,ts,jsx,tsx,mdx}"],
     theme: {
     	extend: {
+			keyframes: {
+				fall: {
+				  '0%': { transform: 'translateY(-100%)', opacity: '0' },
+				  '100%': { transform: 'translateY(0)', opacity: '1' },
+				},
+			  },
+			  animation: {
+				fall: 'fall 1s ease-out',
+			  },
     		colors: {
     			background: 'hsl(var(--background))',
     			foreground: 'hsl(var(--foreground))',
@@ -54,5 +63,6 @@ export default {
     		}
     	}
     },
+	ariants: {},
     plugins: [require("tailwindcss-animate")],
 } satisfies Config;
