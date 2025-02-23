@@ -10,44 +10,48 @@ import { FormWrapper } from "@/components/shared/form-wrapper";
 import { Loader } from "@/components/shared/loader";
 
 export const NewVerificationForm = () => {
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const [error, setError] = useState<string | undefined>("");
-    const [success, setSuccess] = useState<string | undefined>("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
 
-    const token = searchParams.get("token");
+  const token = searchParams.get("token");
 
-    const onSubmit = useCallback(() => {
-        if (success || error) return;
+  const onSubmit = useCallback(() => {
+    if (success || error) return;
 
-        if (!token) {
-            setError("Missing token!");
-            return;
+    if (!token) {
+      setError("Missing token!");
+      return;
+    }
+
+    newVerification(token)
+      .then((data) => {
+        if (data?.error) {
+          setError(data.error);
+        } else if (data?.success) {
+          setSuccess(data.success);
+          router.push("/settings");
         }
+      })
+      .catch(() => setError("Something went wrong"));
+  }, [token, success, error]);
 
-        newVerification(token)
-            .then((data) => {
-                if (data?.error) {
-                    setError(data.error);
-                } else if (data?.success) {
-                    setSuccess(data.success);
-                    router.push("/onboard")
-                }
-            })
-            .catch(() => setError("Something went wrong"));
-    }, [token, success, error]);
+  useEffect(() => {
+    onSubmit();
+  }, [onSubmit]);
 
-    useEffect(() => {
-        onSubmit();
-    }, [onSubmit]);
-
-    return (
-        <FormWrapper headerLabel="Confirming your verification" backButtonLabel="Back to login" backButtonHref="/signin">
-            <div className="flex items-center w-full justify-center">
-                {!success && !error && <Loader />}
-                <FormSuccess message={success} />
-                {!success && <FormError message={error} />}
-            </div>
-        </FormWrapper>
-    );
+  return (
+    <FormWrapper
+      headerLabel="Confirming your verification"
+      backButtonLabel="Back to login"
+      backButtonHref="/signin"
+    >
+      <div className="flex items-center w-full justify-center">
+        {!success && !error && <Loader />}
+        <FormSuccess message={success} />
+        {!success && <FormError message={error} />}
+      </div>
+    </FormWrapper>
+  );
 };

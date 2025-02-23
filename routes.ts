@@ -13,5 +13,6 @@ export const routes = {
   ],
   apiAuthPrefix: "/api/auth",
   defaultLoginRedirect: "/settings",
-  defaultLogoutRedirect: "/signin"
+  defaultLogoutRedirect: "/signin",
+  dashboard: "/dashboard",
 }

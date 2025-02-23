@@ -13,7 +13,7 @@ import { Track } from 'livekit-client';
 
 export default function Page() {
   const room = 'room1';
-  const name = 'user1';
+  const name = 'user1' + Math.random() * 100;
   const [token, setToken] = useState('');
 
   useEffect(() => {
@@ -47,6 +47,7 @@ export default function Page() {
       }}
       data-lk-theme="default"
       style={{ height: '100dvh' }}
+      
     >
       <MyVideoConference />
       <RoomAudioRenderer />
