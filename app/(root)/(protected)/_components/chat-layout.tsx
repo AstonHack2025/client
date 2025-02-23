@@ -57,8 +57,10 @@ export default function ChatLayout() {
   // Listen for user list
   useEffect(() => {
     socket.on("userList", (userList: { name: string; avatarUrl: string }[]) => {
+      console.log("Received user list:", userList); // Debug log
       setUsers(userList);
     });
+  
     return () => {
       socket.off("userList");
     };
@@ -99,30 +101,39 @@ export default function ChatLayout() {
       setSelectedFile(file);
     }
   };
+  console.log("Current users state:", users)
 
   return (
     <div className="h-[90%] flex">
 
       {/* Left-side panel */}
         <div className="w-64 bg-gray-100 dark:bg-gray-800 p-4 border-r flex flex-col h-full shadow-md dark:border-gray-700">
-          {/* Users section */}
+          {/* Users section
           <div>
             <h2 className="text-lg font-bold mb-2 text-black dark:text-white">
               Users in Chat
             </h2>
             <ul className="max-h-48 overflow-y-auto mb-4">
-              {users.map((user, index) => (
-                <li key={index} className="flex items-center space-x-2 mb-1">
-                  <img
-                    src={user.avatarUrl}
-                    alt={user.name}
-                    className="w-6 h-6 rounded-full"
-                  />
-                  <span className="text-black dark:text-white">{user.name}</span>
+              {users.length === 0 && (
+                <li className="text-gray-500 dark:text-gray-300">
+                  No users in chat
                 </li>
-              ))}
+              )}
+              {users.map((user, index) => {
+                console.log("Rendering user:", user);
+                return (
+                  <li key={index} className="flex items-center space-x-2 mb-1">
+                    <img
+                      src={user.avatarUrl}
+                      alt={user.name}
+                      className="w-6 h-6 rounded-full"
+                    />
+                    <span className="text-black dark:text-white">{user.name}</span>
+                  </li>
+                );
+              })}
             </ul>
-          </div>
+          </div> */}
 
           {/* Buttons section */}
           <div className="space-y-2">
@@ -151,49 +162,56 @@ export default function ChatLayout() {
       <div className="flex-1 flex flex-col">
         {/* Messages container */}
         <div className="flex-1 overflow-auto p-4 space-y-4">
-          {messages.map((message) => (
-            <div key={message.id}>
-              <div className="flex items-center space-x-2 mb-1">
-                <img
-                  src={message.user.avatarUrl}
-                  alt={message.user.name}
-                  className="w-8 h-8 rounded-full"
-                />
-                <span className="font-bold dark:text-white">
-                  {message.user.name}
-                </span>
-                <span className="text-gray-400 text-xs">
-                  {message.timestamp}
-                </span>
-              </div>
-              <div className="dark:bg-gray-800 dark:text-white rounded p-2 shadow-sm max-w-[100%]">
-                {message.text && <p>{message.text}</p>}
-                {message.attachment && (
-                  <div className="mt-2">
-                    <a
-                      href={message.attachment.fileUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-400 hover:underline"
-                    >
-                      {message.attachment.fileName}
-                    </a>
-                  </div>
-                )}
-              </div>
+        {messages.map((message) => (
+          <div key={message.id}>
+            <div className="flex items-center space-x-2 mb-1">
+              <img
+                src={message.user.avatarUrl}
+                alt={message.user.name}
+                className="w-8 h-8 rounded-full"
+              />
+              <span className="font-bold dark:text-white">
+                {message.user.name}
+              </span>
+              <span className="text-gray-400 text-xs">
+                {message.timestamp}
+              </span>
             </div>
-          ))}
+            <div className="dark:bg-gray-800 dark:text-white rounded p-2 shadow-sm max-w-[100%]">
+              {message.text && (
+                message.text.startsWith("/") ? (
+                  // Remove the "/" and render with a different colour (e.g., text-blue-500)
+                  <p className="text-blue-500">{message.text.slice(1)}</p>
+                ) : (
+                  <p>{message.text}</p>
+                )
+              )}
+              {message.attachment && (
+                <div className="mt-2">
+                  <a
+                    href={message.attachment.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:underline"
+                  >
+                    {message.attachment.fileName}
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
           <div ref={messagesEndRef} />
         </div>
 
         {/* Input area */}
         <div className="border-t bg-white dark:bg-gray-800 p-4">
           <div className="flex">
-            <Input
+          <Input
               value={currentMessage}
               onChange={(e) => setCurrentMessage(e.target.value)}
               placeholder="Type your message..."
-              className="flex-1 mr-2"
+              className={`flex-1 mr-2 ${currentMessage.startsWith("/") ? "text-green-500" : ""}`}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
