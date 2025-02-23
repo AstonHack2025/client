@@ -28,7 +28,7 @@ const SettingsPage = () => {
                                 <PersonalInfoForm />
                                 <div className="col-span-2 px-6">
                                     <Button size="lg" className="w-full mt-3" type="submit" disabled={false}>
-                                    {"Next"}
+                                    {"Save"}
                                     </Button>
                                 </div>
                                 
