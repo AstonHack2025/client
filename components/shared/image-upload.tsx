@@ -203,7 +203,7 @@ export default function ImageUpload() {
       <div>
         <label
           {...getRootProps()}
-          className="relative flex flex-col items-center justify-center w-full py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 "
+          className="relative flex flex-col items-center justify-center w-full py-6 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer dark:bg-gray-900 dark:hover:bg-gray-950 bg-gray-50 hover:bg-gray-100 "
         >
           <div className=" text-center">
             <div className=" border p-2 rounded-md max-w-min mx-auto">
