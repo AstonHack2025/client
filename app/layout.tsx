@@ -17,9 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "IBM Skill Build",
-    description: "IBM Skill Build future website 😎",
-    applicationName: "IBM Skill Build",
+    title: "Study Buddy",
+    description: "Study app for students",
+    applicationName: "Study Buddy",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
