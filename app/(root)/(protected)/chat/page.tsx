@@ -5,9 +5,7 @@ export default function Chat(){
   return (
     <div className="h-screen">  
         <Navbar />
-        <div className="relative">
-          <ChatLayout />
-        </div>
+        <ChatLayout />
     </div>
   )
 }
