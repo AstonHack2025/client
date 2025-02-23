@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import { Track } from "livekit-client";
 import { useCurrentUser } from "@/hooks/use-session";
 
-export default function Page() {
+export default function Page(roomId: string) {
     const user = useCurrentUser();
-    const room = "room1";
+    const room = roomId;
     const name = `${user?.name} - ${user?.email}`;
     const [token, setToken] = useState("");
 
