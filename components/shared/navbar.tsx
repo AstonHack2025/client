@@ -21,12 +21,18 @@ export const Navbar = () => {
                         </svg>
                     </Button>
                     <Link href="/dashboard">
-                        <div className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r dark:from-white from-black via-cyan-500 to-blue-500 dark:via-cyan-400 dark:to-blue-500">Student Buddy</div>
+                        <div className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r dark:from-white from-black via-cyan-500 to-blue-500 dark:via-cyan-400 dark:to-blue-500">Study Buddy</div>
                     </Link>
                 </div>
 
                 {/* Right: User Button & Mode Toggle */}
                 <div className="flex items-center space-x-4 flex-shrink-0">
+                    <Link href="/dashboard">
+                        <p className="dark:text-gray-300">Dashboard</p>
+                    </Link>
+                    <Link href="/settings">
+                        <p className="dark:text-gray-300">Settings</p>
+                    </Link>
                     <UserButton />
                     <ModeToggle />
                 </div>
