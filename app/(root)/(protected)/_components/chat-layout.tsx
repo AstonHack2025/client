@@ -63,8 +63,10 @@ export default function ChatLayout() {
   // Listen for user list
   useEffect(() => {
     socket.on("userList", (userList: { name: string; avatarUrl: string }[]) => {
+      console.log("Received user list:", userList); // Debug log
       setUsers(userList);
     });
+  
     return () => {
       socket.off("userList");
     };
@@ -105,6 +107,7 @@ export default function ChatLayout() {
       setSelectedFile(file);
     }
   };
+  console.log("Current users state:", users)
 
   return (
     <div className="h-[90%] flex">
@@ -307,6 +310,7 @@ export default function ChatLayout() {
                 className="rounded-full shadow"
                 onClick={handleSend}
                 variant="default"
+
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
