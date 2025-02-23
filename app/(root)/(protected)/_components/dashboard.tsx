@@ -66,18 +66,18 @@ export default function Dashboard() {
   return (
 
     // Apply theme class to the root container
-    <div className={`${theme === "dark" ? "dark" : ""}`}>
+    <div className={`${theme === "dark" ? "dark" : ""} `}>
       <div className="min-h-screen bg-gray-100 dark:bg-gray-900 dark:text-gray-100">
 
         {/* Main Content */}
         <main className="max-w-4xl mx-auto p-8">
           <h1 className="text-3xl font-bold mb-4">Welcome to Your Study Buddy</h1>
           <p className="mb-6 text-gray-700 dark:text-gray-300">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-            tincidunt vestibulum ligula, eu varius nunc cursus a. Nulla facilisi.
-            Pellentesque tempor ipsum quis vulputate pretium. Sed porta, nisl at
-            volutpat gravida, velit sapien euismod ligula, ut gravida purus nisi eu
-            risus.
+            Get connected with a study buddy to help you with your studies. Select
+            your topics, purpose of study.
+            Find the perfect student study partner to help you with your studies.
+            Either with exam prep, revision, learning new material, mentoring, or advice.
+            Want to learn by Teaching others or learn from others much more experienced? Just Connect.
           </p>
           <button
             onClick={handleGetStarted}
