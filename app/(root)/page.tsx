@@ -10,7 +10,7 @@ export default function Home() {
       <div className="flex items-center justify-center h-full space-x-40">
         <div className="flex flex-col items-start justify-center space-y-6">
           <h1 className="text-8xl font-bold">Study Buddy</h1>
-          <p className="text-4xl">Connecting Students in need</p>
+          <p className="text-2xl">Growing a community of learners by connecting students in need</p>
           <Link href="/signup">
             <Button variant="default" size="lg" className="text-xl py-6">Get Started</Button>
           </Link>

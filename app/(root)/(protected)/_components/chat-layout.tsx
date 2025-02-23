@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import ImageUpload from "@/components/shared/image-upload";
 import { Button } from "@/components/ui/button";
 import { useSyncDemo } from "@tldraw/sync";
+import Editor from "@monaco-editor/react";
 import {
   DialogDescription,
   DialogHeader,
@@ -44,7 +45,7 @@ export default function ChatLayout() {
   const currentUser = useCurrentUser();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [sentMessageIds, setSentMessageIds] = useState<Set<string>>(new Set());
-  const [activeView, setActiveView] = useState<"chat" | "whiteboard">("chat");
+  const [activeView, setActiveView] = useState<"chat" | "whiteboard" | "codeeditor">("chat");
   const store = useSyncDemo({ roomId: "myapp-abc123" });
 
   // Listen for messages
@@ -66,7 +67,7 @@ export default function ChatLayout() {
       console.log("Received user list:", userList); // Debug log
       setUsers(userList);
     });
-  
+
     return () => {
       socket.off("userList");
     };
@@ -85,9 +86,9 @@ export default function ChatLayout() {
         timestamp: new Date().toLocaleString(),
         attachment: selectedFile
           ? {
-              fileName: selectedFile.name,
-              fileUrl: URL.createObjectURL(selectedFile),
-            }
+            fileName: selectedFile.name,
+            fileUrl: URL.createObjectURL(selectedFile),
+          }
           : undefined,
       };
       setMessages((prev) => [...prev, newMessage]);
@@ -109,7 +110,33 @@ export default function ChatLayout() {
       
     }
   };
-  console.log("Current users state:", users)
+
+  const [code, setCode] = useState<string>("// Start coding...");
+      const [language, setLanguage] = useState<string>("javascript");
+  
+      useEffect(() => {
+          // Load initial code when connected
+          socket.on("load-code", (initialCode: string) => {
+              setCode(initialCode);
+          });
+  
+          // Listen for real-time code updates from other users
+          socket.on("code-change", (newCode: string) => {
+              setCode(newCode);
+          });
+  
+          return () => {
+              socket.off("load-code");
+              socket.off("code-change");
+          };
+      }, []);
+  
+  const handleCodeChange = (newCode: string | undefined) => {
+    if (newCode !== undefined) {
+        setCode(newCode);
+        socket.emit("code-change", newCode);
+    }
+};
 
   return (
     <div className="h-[90%] flex">
@@ -174,7 +201,7 @@ export default function ChatLayout() {
               />
             </svg>
           </Button>
-          <Button className="w-full flex justify-center space-x-1">
+          <Button className="w-full flex justify-center space-x-1" onClick={() => setActiveView("codeeditor")}>
             <p>Open Code Editor</p>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -336,6 +363,45 @@ export default function ChatLayout() {
               </div>
             )}
           </div>
+        </div>
+
+
+
+
+
+      )}
+
+
+      {activeView === "codeeditor" && (
+        <div className="flex-1 flex flex-col">
+          {/* Dropdown for selecting language */}
+          <select
+            onChange={(e) => setLanguage(e.target.value)}
+            value={language}
+            style={{
+              padding: "8px",
+              fontSize: "16px",
+              marginBottom: "10px",
+              alignSelf: "center",
+            }}
+          >
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="cpp">C++</option>
+            <option value="java">Java</option>
+            <option value="typescript">TypeScript</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+          </select>
+
+          {/* Monaco Editor with real-time collaboration */}
+          <Editor
+            height="90vh"
+            theme="vs-dark" // Dark mode
+            language={language}
+            value={code}
+            onChange={handleCodeChange} // Sync changes via Socket.IO
+          />
         </div>
       )}
     </div>
