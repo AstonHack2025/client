@@ -13,7 +13,7 @@ export const Navbar = () => {
                 {/* Left: Logo */}
                 <div className="flex flex-shrink-0">
                     <Link href="/dashboard">
-                        <div className="font-bold text-xl">Student Buddy</div>
+                        <div className="font-bold text-xl">Study Buddy</div>
                     </Link>
                 </div>
 
