@@ -10,10 +10,12 @@ import {
 import '@livekit/components-styles';
 import { useEffect, useState } from 'react';
 import { Track } from 'livekit-client';
+import { useCurrentUser } from '@/hooks/use-session';
 
 export default function Page() {
+  const user = useCurrentUser();
   const room = 'room1';
-  const name = 'user1' + Math.random() * 100;
+  const name =  `${user?.name} - ${user?.email}`;
   const [token, setToken] = useState('');
 
   useEffect(() => {
