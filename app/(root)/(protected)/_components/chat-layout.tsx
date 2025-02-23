@@ -74,6 +74,7 @@ export default function ChatLayout() {
 
   function handleSend() {
     if (currentMessage.trim() || selectedFile) {
+
       const newMessage: Message = {
         id: uuidv4(),
         text: currentMessage.trim(),
@@ -105,6 +106,7 @@ export default function ChatLayout() {
     const file = event.target.files?.[0];
     if (file) {
       setSelectedFile(file);
+      
     }
   };
   console.log("Current users state:", users)

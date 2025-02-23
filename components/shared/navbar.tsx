@@ -27,6 +27,12 @@ export const Navbar = () => {
 
                 {/* Right: User Button & Mode Toggle */}
                 <div className="flex items-center space-x-4 flex-shrink-0">
+                    <Link href="/dashboard">
+                        <p className="dark:text-gray-300">Dashboard</p>
+                    </Link>
+                    <Link href="/settings">
+                        <p className="dark:text-gray-300">Settings</p>
+                    </Link>
                     <UserButton />
                     <ModeToggle />
                 </div>
