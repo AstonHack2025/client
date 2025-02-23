@@ -18,10 +18,22 @@ import { Switch } from "@/components/ui/switch";
 import { FormError } from "@/components/shared/form-error";
 import { FormSuccess } from "@/components/shared/form-success";
 
+
+import {
+    DialogDescription,
+    DialogHeader,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogTrigger,
+  } from "@/components/ui/dialog";
+  import ImageUpload from "@/components/shared/image-upload";
+
 export const SettingsForm = () => {
     const { data: session, status, update } = useSession({ required: true });
     const user = session?.user;
 
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [error, setError] = useState<string | undefined>("");
     const [success, setSuccess] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
@@ -55,6 +67,14 @@ export const SettingsForm = () => {
         });
     }
 
+    function uploadAvatar(event: React.ChangeEvent<HTMLInputElement>) {
+        event.preventDefault();
+        const file = event.target.files?.[0];
+        if(file){
+            
+        }
+    }
+
     if (status === "loading") {
         return <div>Loading...</div>;
     }
@@ -67,7 +87,37 @@ export const SettingsForm = () => {
             <CardContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-                        <div className="space-y-4">
+                        <div className="space-y-2">
+                            <div className="flex items-center justify-center space-x-4">
+                                <p className="font-semibold">Upload a new avatar picture</p>
+                                <Dialog>
+              <DialogTrigger asChild>
+                <Button className="rounded-full shadow" variant="outline">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
+                  </svg>
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle className="text-center">
+                    Upload your files
+                  </DialogTitle>
+                  <DialogDescription className="text-center">
+                    The only file upload you will ever need
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <ImageUpload />
+                </div>
+              </DialogContent>
+            </Dialog>
+            {selectedFile && (
+            <div className="mt-2 text-sm text-gray-400">
+              Attached: {selectedFile.name}
+            </div>
+          )}
+                            </div>
                             <FormField
                                 control={form.control}
                                 name="name"
