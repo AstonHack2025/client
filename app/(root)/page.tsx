@@ -9,10 +9,10 @@ export default function Home() {
     <div className="h-screen bg-gradient-to-b from-blue-900 to-blue-100 dark:bg-gradient-to-b dark:from-black dark:via-gray-900 dark:to-blue-900">
       <div className="flex items-center justify-center h-full space-x-40">
         <div className="flex flex-col items-start justify-center space-y-6">
-          <h1 className="text-8xl font-bold">Study Buddy</h1>
-          <p className="text-2xl">Growing a community of learners by connecting students in need</p>
+          <h1 className="text-8xl font-bold animate-fall">Study Buddy</h1>
+          <p className="text-2xl animate-fall">Growing a community of learners by connecting students in need</p>
           <Link href="/signup">
-            <Button variant="default" size="lg" className="text-xl py-6">Get Started</Button>
+            <Button variant="default" size="lg" className="text-xl py-6 animate-fall">Get Started</Button>
           </Link>
         </div>
         <Shapes />
