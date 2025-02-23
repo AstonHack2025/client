@@ -1,0 +1,345 @@
+{
+    "degree_courses": [
+      {
+        "name": "Computer Science",
+        "subtopics": [
+          "Artificial Intelligence",
+          "Machine Learning",
+          "Data Science",
+          "Cybersecurity",
+          "Software Engineering",
+          "Human-Computer Interaction",
+          "Computer Graphics",
+          "Networking",
+          "Database Systems",
+          "Cloud Computing",
+          "Blockchain Technology",
+          "Quantum Computing",
+          "Leetcode"
+        ]
+      },
+      {
+        "name": "Business Administration",
+        "subtopics": [
+          "Finance",
+          "Marketing",
+          "Human Resource Management",
+          "Operations Management",
+          "Strategic Management",
+          "Entrepreneurship",
+          "International Business",
+          "Business Analytics",
+          "Supply Chain Management",
+          "Corporate Governance",
+          "Risk Management",
+          "Digital Marketing"
+        ]
+      },
+      {
+        "name": "Psychology",
+        "subtopics": [
+          "Cognitive Psychology",
+          "Developmental Psychology",
+          "Social Psychology",
+          "Clinical Psychology",
+          "Neuropsychology",
+          "Forensic Psychology",
+          "Health Psychology",
+          "Educational Psychology",
+          "Organizational Psychology",
+          "Behavioral Psychology",
+          "Positive Psychology",
+          "Evolutionary Psychology"
+        ]
+      },
+      {
+        "name": "Mechanical Engineering",
+        "subtopics": [
+          "Thermodynamics",
+          "Fluid Mechanics",
+          "Materials Science",
+          "Robotics",
+          "Automotive Engineering",
+          "Aerospace Engineering",
+          "Manufacturing Processes",
+          "Structural Analysis",
+          "Control Systems",
+          "Energy Systems",
+          "Nanotechnology",
+          "Biomechanics"
+        ]
+      },
+      {
+        "name": "Biology",
+        "subtopics": [
+          "Molecular Biology",
+          "Genetics",
+          "Ecology",
+          "Microbiology",
+          "Zoology",
+          "Botany",
+          "Biochemistry",
+          "Marine Biology",
+          "Cell Biology",
+          "Evolutionary Biology",
+          "Immunology",
+          "Environmental Biology"
+        ]
+      },
+      {
+        "name": "Economics",
+        "subtopics": [
+          "Macroeconomics",
+          "Microeconomics",
+          "International Economics",
+          "Development Economics",
+          "Environmental Economics",
+          "Labor Economics",
+          "Public Economics",
+          "Financial Economics",
+          "Behavioral Economics",
+          "Game Theory",
+          "Monetary Economics",
+          "Industrial Organization"
+        ]
+      },
+      {
+        "name": "Law",
+        "subtopics": [
+          "Contract Law",
+          "Criminal Law",
+          "Property Law",
+          "Tort Law",
+          "Corporate Law",
+          "Family Law",
+          "Intellectual Property Law",
+          "International Law",
+          "Constitutional Law",
+          "Employment Law",
+          "Tax Law",
+          "Human Rights Law"
+        ]
+      },
+      {
+        "name": "Medicine",
+        "subtopics": [
+          "Anatomy",
+          "Physiology",
+          "Pharmacology",
+          "Pathology",
+          "Surgery",
+          "Internal Medicine",
+          "Pediatrics",
+          "Obstetrics and Gynecology",
+          "Radiology",
+          "Oncology",
+          "Cardiology",
+          "Neurology"
+        ]
+      },
+      {
+        "name": "History",
+        "subtopics": [
+          "Ancient History",
+          "Medieval History",
+          "Modern History",
+          "World History",
+          "European History",
+          "American History",
+          "Military History",
+          "Cultural History",
+          "Political History",
+          "Social History",
+          "Economic History",
+          "Archaeology"
+        ]
+      },
+      {
+        "name": "Chemistry",
+        "subtopics": [
+          "Organic Chemistry",
+          "Inorganic Chemistry",
+          "Physical Chemistry",
+          "Analytical Chemistry",
+          "Biochemistry",
+          "Environmental Chemistry",
+          "Materials Chemistry",
+          "Theoretical Chemistry",
+          "Computational Chemistry",
+          "Green Chemistry",
+          "Polymer Chemistry",
+          "Nuclear Chemistry"
+        ]
+      },
+      {
+        "name": "Physics",
+        "subtopics": [
+          "Classical Mechanics",
+          "Quantum Mechanics",
+          "Thermodynamics",
+          "Electromagnetism",
+          "Astrophysics",
+          "Particle Physics",
+          "Condensed Matter Physics",
+          "Optics",
+          "Relativity",
+          "Nuclear Physics",
+          "Biophysics",
+          "Plasma Physics"
+        ]
+      },
+      {
+        "name": "Mathematics",
+        "subtopics": [
+          "Algebra",
+          "Calculus",
+          "Geometry",
+          "Number Theory",
+          "Probability",
+          "Statistics",
+          "Differential Equations",
+          "Topology",
+          "Linear Algebra",
+          "Mathematical Modeling",
+          "Numerical Analysis",
+          "Cryptography"
+        ]
+      },
+      {
+        "name": "Architecture",
+        "subtopics": [
+          "Urban Design",
+          "Landscape Architecture",
+          "Interior Design",
+          "Sustainable Architecture",
+          "Building Technology",
+          "Construction Management",
+          "Historic Preservation",
+          "Architectural Theory",
+          "Digital Design",
+          "Structural Engineering",
+          "Environmental Design",
+          "Architectural History"
+        ]
+      },
+      {
+        "name": "Political Science",
+        "subtopics": [
+          "Comparative Politics",
+          "International Relations",
+          "Political Theory",
+          "Public Policy",
+          "Political Economy",
+          "Global Governance",
+          "Security Studies",
+          "Democracy and Democratization",
+          "Human Rights",
+          "Conflict Resolution",
+          "Political Communication",
+          "Public Administration"
+        ]
+      },
+      {
+        "name": "Sociology",
+        "subtopics": [
+          "Social Theory",
+          "Cultural Sociology",
+          "Gender Studies",
+          "Race and Ethnicity",
+          "Social Inequality",
+          "Urban Sociology",
+          "Medical Sociology",
+          "Environmental Sociology",
+          "Criminology",
+          "Family Sociology",
+          "Work and Organizations",
+          "Social Movements"
+        ]
+      },
+      {
+        "name": "Environmental Science",
+        "subtopics": [
+          "Climate Change",
+          "Conservation Biology",
+          "Ecology",
+          "Environmental Policy",
+          "Geography",
+          "Sustainability",
+          "Renewable Energy",
+          "Pollution Control",
+          "Water Resources",
+          "Environmental Impact Assessment",
+          "Natural Resource Management",
+          "Environmental Economics"
+        ]
+      },
+      {
+        "name": "Philosophy",
+        "subtopics": [
+          "Ethics",
+          "Metaphysics",
+          "Epistemology",
+          "Logic",
+          "Political Philosophy",
+          "Aesthetics",
+          "Philosophy of Mind",
+          "Philosophy of Language",
+          "Philosophy of Science",
+          "Existentialism",
+          "Feminist Philosophy",
+          "Ancient Philosophy"
+        ]
+      },
+      {
+        "name": "Education",
+        "subtopics": [
+          "Curriculum Development",
+          "Educational Psychology",
+          "Special Education",
+          "Higher Education",
+          "Early Childhood Education",
+          "Teacher Training",
+          "Educational Leadership",
+          "Educational Technology",
+          "Assessment and Evaluation",
+          "Multicultural Education",
+          "Inclusive Education",
+          "Distance Learning"
+        ]
+      },
+      {
+        "name": "Civil Engineering",
+        "subtopics": [
+          "Structural Engineering",
+          "Transportation Engineering",
+          "Geotechnical Engineering",
+          "Environmental Engineering",
+          "Water Resources Engineering",
+          "Construction Management",
+          "Urban Planning",
+          "Coastal Engineering",
+          "Earthquake Engineering",
+          "Surveying",
+          "Bridge Design",
+          "Highway Engineering"
+        ]
+      },
+      {
+        "name": "Electrical Engineering",
+        "subtopics": [
+          "Power Systems",
+          "Control Systems",
+          "Signal Processing",
+          "Telecommunications",
+          "Microelectronics",
+          "Embedded Systems",
+          "Renewable Energy Systems",
+          "Robotics",
+          "Instrumentation",
+          "Photonics",
+          "VLSI Design",
+          "Wireless Communication"
+        ]
+      }
+    ]
+  }
